@@ -1,0 +1,85 @@
+ //masuk ke ruang DB melalui CMD
+ cd \xampp\mysql\bin
+
+//menampilkan database yang sudah dibuat
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| 127_0_0_1          |
+| aplikasi_sport     |
+| crud-ci3           |
+| db_akademik        |
+| db_kasir           |
+| db_penjualan       |
+| dbci3              |
+| information_schema |
+| mysql              |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| rs                 |
+| tokosib5           |
++--------------------+
+14 rows in set (0.001 sec)
+
+//buat database baru : dbpegawai
+MariaDB [(none)]> CREATE DATABASE dbpegawai;
+Query OK, 1 row affected (0.001 sec)
+
+//masuk ke ruang database dbpegawai
+MariaDB [(none)]> USE dbpegawai
+Database changed
+
+//tampilkan tabel2 yang sudah ada di dbpegawai
+MariaDB [dbpegawai]> show tables;
+Empty set (0.001 sec)
+
+//buat tabel pegawai field-field:
+MariaDB [(none)]> use dbpegawai;
+Database changed
+MariaDB [dbpegawai]> CREATE TABLE pegawai(
+    -> id int primary key,
+    -> nip char(5) not null unique,
+    -> nama varchar(30) not null,
+    -> geder enum('L','P') not null,
+    -> umur int not null,
+    -> berat_badan float);
+Query OK, 0 rows affected (0.020 sec)
+
+//tampilkan database yang sudah dibuat
+MariaDB [dbpegawai]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| 127_0_0_1          |
+| aplikasi_sport     |
+| crud-ci3           |
+| db_akademik        |
+| db_kasir           |
+| db_penjualan       |
+| dbci3              |
+| dbpegawai          |
+| information_schema |
+| mysql              |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| rs                 |
+| tokosib5           |
++--------------------+
+15 rows in set (0.001 sec)
+
+//lihat deskripsi tabel pegawai yang sudah dibuat
+MariaDB [dbpegawai]> DESC pegawai;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| id          | int(11)       | NO   | PRI | NULL    |       |
+| nip         | char(5)       | NO   | UNI | NULL    |       |
+| nama        | varchar(30)   | NO   |     | NULL    |       |
+| geder       | enum('L','P') | NO   |     | NULL    |       |
+| umur        | int(11)       | NO   |     | NULL    |       |
+| berat_badan | float         | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+6 rows in set (0.003 sec)
