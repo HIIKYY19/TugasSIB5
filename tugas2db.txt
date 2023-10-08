@@ -1,0 +1,131 @@
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| 127_0_0_1          |
+| aplikasi_sport     |
+| crud-ci3           |
+| db_akademik        |
+| db_kasir           |
+| db_penjualan       |
+| dbci3              |
+| dbpegawai          |
+| information_schema |
+| mysql              |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| rs                 |
+| tokosib5           |
++--------------------+
+15 rows in set (0.001 sec)
+
+MariaDB [(none)]> USE tokosib5;
+Database changed
+
+MariaDB [tokosib5]> SHOW TABLES;
++--------------------+
+| Tables_in_tokosib5 |
++--------------------+
+| jenis_produk       |
+| produk             |
++--------------------+
+2 rows in set (0.001 sec)
+
+//table vendor yang references ke table pembelian,dengan rincian:
+nomor, nama, kota, kontak
+MariaDB [tokosib5]> CREATE TABLE vendor(
+    -> nomor INT PRIMARY KEY,
+    -> nama VARCHAR(50) NOT NULL,
+    -> kota VARCHAR(50),
+    -> kontak VARCHAR(50));
+Query OK, 0 rows affected (0.013 sec)
+
+MariaDB [tokosib5]> INSERT INTO vendor(nomor, nama, kota, kontak) VALUES
+    -> (1, 'vendor R', 'Sumedang', '0897654321'),
+    -> (2, 'vendor I', 'Uruguay', ' 0890765432'),
+    -> (3, 'vendor Z', 'Cirebon', '0812345678'),
+    -> (4, 'vendor K', 'Indramayu', '0870123456'),
+    -> (5, 'vendor Y', 'Maluku', '0856789012');
+Query OK, 5 rows affected (0.005 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+//table pembelian yang references ke produk, dengan rincian:
+tanggal, nomor, produk_id, jumlah, harga, vendor_id
+MariaDB [tokosib5]> CREATE TABLE pembelian (
+    -> tanggal DATE,
+    -> nomor INT PRIMARY KEY,
+    -> produk_id INT,
+    -> jumlah INT,
+    -> harga DECIMAL(20, 4),
+    -> vendor_id INT,
+    -> FOREIGN KEY (vendor_id) REFERENCES vendor(nomor));
+Query OK, 0 rows affected (0.023 sec)
+
+MariaDB [tokosib5]> INSERT INTO pembelian(tanggal, nomor, produk_id, jumlah, harga, vendor_id) VALUES
+    -> ('2022-05-19', 10, 1, 23, 19.000, 5),
+    -> ('2023-05-19', 11, 2, 19, 1.900, 4),
+    -> ('2023-03-23', 12, 3, 23, 190.000, 3),
+    -> ('2023-03-19', 13, 4, 3, 23.000, 2),
+    -> ('2023-03-19', 14, 5, 5, 2.300, 1);
+Query OK, 5 rows affected (0.005 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [tokosib5]> SHOW TABLES;
++--------------------+
+| Tables_in_tokosib5 |
++--------------------+
+| jenis_produk       |
+| pembelian          |
+| produk             |
+| vendor             |
++--------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [tokosib5]> DESC vendor;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| nomor  | int(11)     | NO   | PRI | NULL    |       |
+| nama   | varchar(50) | NO   |     | NULL    |       |
+| kota   | varchar(50) | YES  |     | NULL    |       |
+| kontak | varchar(50) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.003 sec)
+
+MariaDB [tokosib5]> DESC pembelian;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| tanggal   | date          | YES  |     | NULL    |       |
+| nomor     | int(11)       | NO   | PRI | NULL    |       |
+| produk_id | int(11)       | YES  |     | NULL    |       |
+| jumlah    | int(11)       | YES  |     | NULL    |       |
+| harga     | decimal(20,4) | YES  |     | NULL    |       |
+| vendor_id | int(11)       | YES  | MUL | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+6 rows in set (0.003 sec)
+
+MariaDB [tokosib5]> SELECT * FROM vendor;
++-------+----------+-----------+-------------+
+| nomor | nama     | kota      | kontak      |
++-------+----------+-----------+-------------+
+|     1 | vendor R | Sumedang  | 0897654321  |
+|     2 | vendor I | Uruguay   |  0890765432 |
+|     3 | vendor Z | Cirebon   | 0812345678  |
+|     4 | vendor K | Indramayu | 0870123456  |
+|     5 | vendor Y | Maluku    | 0856789012  |
++-------+----------+-----------+-------------+
+5 rows in set (0.000 sec)
+
+MariaDB [tokosib5]> SELECT * FROM pembelian;
++------------+-------+-----------+--------+----------+-----------+
+| tanggal    | nomor | produk_id | jumlah | harga    | vendor_id |
++------------+-------+-----------+--------+----------+-----------+
+| 2022-05-19 |    10 |         1 |     23 |  19.0000 |         5 |
+| 2023-05-19 |    11 |         2 |     19 |   1.9000 |         4 |
+| 2023-03-23 |    12 |         3 |     23 | 190.0000 |         3 |
+| 2023-03-19 |    13 |         4 |      3 |  23.0000 |         2 |
+| 2023-03-19 |    14 |         5 |      5 |   2.3000 |         1 |
++------------+-------+-----------+--------+----------+-----------+
+5 rows in set (0.000 sec)
