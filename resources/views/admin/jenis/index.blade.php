@@ -38,7 +38,7 @@
                                             <td>{{$no++}}</td>
                                             <td>{{$jenis->nama}}</td>
                                             <td>
-                                                Ubah
+                                                <a href="{{url('admin/jenis_produk/edit/'.$jenis->id)}}">Edit</a>
                                             </td>
                                         </tr>
                                         

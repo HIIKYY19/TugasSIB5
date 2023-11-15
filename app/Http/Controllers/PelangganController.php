@@ -55,7 +55,9 @@ class PelangganController extends Controller
      */
     public function show(string $id)
     {
-        //
+        //show eloquent
+        $pelanggan = Pelanggan::find($id);
+        return view ('admin.pelanggan.show', compact('pelanggan'));
     }
 
     /**
@@ -63,7 +65,11 @@ class PelangganController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        //edit eloquent
+        $pelanggan = Pelanggan::find($id);
+        $kartu = Kartu::all();
+        $gender = ['L','P'];
+        return view ('admin.pelanggan.edit', compact('pelanggan', 'kartu','gender'));
     }
 
     /**
@@ -79,6 +85,10 @@ class PelangganController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // delete eloquent
+        $pelanggan = Pelanggan::find($id);
+        $pelanggan->delete();
+        return redirect('admin/pelanggan');
+
     }
 }
