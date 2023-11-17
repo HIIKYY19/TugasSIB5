@@ -67,7 +67,9 @@ Route::get('/produk/show/{id}', [ProdukController::class, 'show']);
 Route::get('/produk/edit/{id}', [ProdukController::class, 'edit']);
 Route::post('/produk/update/{id}', [ProdukController::class, 'update']);
 Route::get('/produk/delete/{id}', [ProdukController::class, 'destroy']);
-
+Route::get('/generatePDF', [ProdukController::class, 'generatePDF']);
+Route::get('/produk/produkPDF', [ProdukController::class, 'produkPDF']);
+Route::get('/produk/pdfshow/{id}', [ProdukController::class, 'produkPDF_show']);
 
 
 Route::resource('pelanggan', PelangganController::class);

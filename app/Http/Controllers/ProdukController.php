@@ -7,7 +7,7 @@ use App\Models\Produk;
 use App\Models\Jenis_produk;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
-
+use PDF;
 
 class ProdukController extends Controller
 {
@@ -88,8 +88,8 @@ class ProdukController extends Controller
             'deskripsi'=>$request->deskripsi,
             'jenis_produk_id'=>$request->jenis_produk_id,
         ]);
-        //Alert::success('Produk', 'Berhasil Ditambahkan');
-       return redirect('admin/produk')->with('Produk', 'Produk Berhasil Ditambahkan!');;
+        // Alert::success('Pelanggan', 'Berhasil menambahkan pelanggan');
+        return redirect('admin/produk')->with('success', 'Produk Berhasil ditambahkan!');
     }
 
     /**
@@ -121,8 +121,9 @@ class ProdukController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        //try{
+    { 
+        
+        // try{
         $request->validate([
             'nama' => 'required|max:45',
             'harga_beli' => 'required|numeric',
@@ -171,13 +172,15 @@ class ProdukController extends Controller
             'deskripsi'=>$request->deskripsi,
             'jenis_produk_id'=>$request->jenis_produk_id,
         ]);
-        //Alert::success('Produk', 'Berhasil Mengupdate');
-        //return redirect('admin/produk');
-    //}catch(\Exception $e){
+    
+        // Alert::success('Pelanggan', 'Berhasil mengupdate pelanggan');
+        return redirect('admin/produk')->with('success', 'Produk Berhasil update!');
 
-        Alert::success('Produk', 'Berhasil Mengupdate');
-        return redirect('admin/produk');
-    //}
+    // } catch (\Exception $e){
+
+    //     // Alert::error('Pelanggan', 'Berhasil mengupdate pelanggan');
+    //     return back()->with('errors', $validator->messages()->all()[0])->withInput();   
+    // }
     }
 
     /**
@@ -187,7 +190,30 @@ class ProdukController extends Controller
     {
         //
         DB::table('produk')->where('id', $id)->delete();
-        //Alert::error('Produk', 'Berhasil Menghapus');
-        return redirect('admin/produk')->withSuccess('Produk Berhasil Dihapus!');;;
+        // Alert::error('Produk', 'Berhasil Menghapus');
+        return redirect('admin/produk')->withSuccess('Berhasil Menghapus Data Produk!');
+    }
+    public function generatePDF(){
+        $data = [
+            'title' => 'Welcome to export PDF',
+            'date' => ('m/d/y')
+        ];
+        $pdf = PDF::loadView('admin.produk.myPDF', $data);
+        return $pdf->download('testdownload.pdf');
+    }
+    public function produkPDF(){
+        $produk = Produk::join('jenis_produk', 'jenis_produk_id', '=', 'jenis_produk.id')
+        ->select('produk.*', 'jenis_produk.nama as jenis')
+        ->get();
+        $pdf = PDF::loadView('admin.produk.produkPDF', ['produk' => $produk])->setPaper('a4', 'landscape');
+        return $pdf->stream();
+    }
+    public function produkPDF_show(string $id){
+        $produk = Produk::join('jenis_produk', 'jenis_produk_id', '=', 'jenis_produk.id')
+        ->select('produk.*', 'jenis_produk.nama as jenis')
+        ->where('produk.id', $id)
+        ->get();
+        $pdf = PDF::loadView('admin.produk.produkPDF_show', ['produk' => $produk]);
+        return $pdf->stream();
     }
 }
