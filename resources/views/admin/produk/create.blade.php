@@ -83,6 +83,7 @@
       @enderror
     </div>
   </div>
+  
   <div class="form-group row">
     <label for="text4" class="col-4 col-form-label">Foto</label> 
     <div class="col-8">
@@ -93,6 +94,7 @@
       </div>
       @enderror
     </div>
+
   </div>
   <div class="form-group row">
     <label for="textarea" class="col-4 col-form-label">Deskripsi</label> 
