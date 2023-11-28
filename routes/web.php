@@ -77,14 +77,3 @@ Route::post('/produk/import/', [ProdukController::class, 'importProduk']);
 Route::resource('pelanggan', PelangganController::class);
 
 });
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
