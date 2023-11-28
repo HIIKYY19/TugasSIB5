@@ -12,6 +12,8 @@ class Produk extends Model
     protected $fillable = [
         'kode','nama','harga_beli','harga_jual','stok','min_stok','jenis_produk_id'
     ];
+    public $timestamps = false;
+
 
     //relasi one to many ke table yang berhubungan dengan produk
     public function jenis_produk(){
